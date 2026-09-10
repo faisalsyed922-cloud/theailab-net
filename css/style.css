@@ -1,7 +1,6 @@
 /* Twenty Nineteen-faithful theme for Programming Humanity
    Design tokens measured from programminghumanity.wordpress.com (2026-08-25):
-   serif body 22px/1.8, bold sans headings, primary #0073a8, grayscale+blue
-   duotone featured-image headers with bottom-left entry title. */
+   serif body 22px/1.8, bold sans headings, primary #0073a8. */
 
 :root {
   --bg: #fff;
@@ -9,11 +8,8 @@
   --text-lt: #767676;
   --accent: #0073aa;
   --accent-dk: #005177;
-  --primary: #0073a8;      /* duotone / hero tint */
   --border: #e0e0e0;
   --code-bg: #f5f5f5;
-  --draft: #ff9800;
-  --priv: #e91e63;
   --fh: "NonBreakingSpaceOverride", "Hoefler Text", Garamond, "Times New Roman", serif;
   --fb: "NonBreakingSpaceOverride", -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   --mw: 640px;             /* text column measure */
@@ -56,6 +52,26 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ===================== */
+/*   Skip link           */
+/* ===================== */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--bg);
+  color: var(--accent);
+  padding: 0.75rem 1.25rem;
+  z-index: 10;
+  font-family: var(--fb);
+  font-weight: 700;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+/* ===================== */
 /*   Site Header         */
 /* ===================== */
 
@@ -64,38 +80,6 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text);
   background: var(--bg);
   padding: 44px 0 0;
-}
-
-/* --- Featured-image variant: full-viewport duotone hero --- */
-.site-header.has-featured-image {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  color: #fff;
-  background: #000e14;
-  padding: 66px 0 88px;
-  overflow: hidden;
-}
-
-.featured-media {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-.featured-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(100%);
-}
-/* blue duotone: multiply keeps shadows black, tints highlights toward primary */
-.featured-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--primary);
-  mix-blend-mode: multiply;
 }
 
 .header-inner {
@@ -134,8 +118,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--fh);
   font-size: 24.75px;
 }
-.site-description,
-.site-title .tagline {
+.site-description {
   font-family: var(--fh);
   font-size: 24.75px;
   font-weight: 400;
@@ -145,8 +128,7 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.25;
   opacity: 1;
 }
-.site-header.no-featured-image .site-description,
-.site-header.no-featured-image .site-title .tagline {
+.site-header.no-featured-image .site-description {
   color: var(--text-lt);
 }
 
@@ -185,34 +167,19 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--accent);
 }
 
-.social-nav {
-  margin-top: 1.4rem;
-}
-.social-nav a {
-  color: inherit;
-  font-family: var(--fb);
-  font-size: 16px;
-  text-decoration: none;
-}
-.social-nav a:hover {
-  text-decoration: underline;
-}
-
 /* ===================== */
 /*   Hero / entry title  */
 /* ===================== */
 
-/* On featured-image pages the hero sits at the bottom-left of the image;
-   on plain pages it flows in the document with a gray dash. */
+/* The hero (page <h1>) lives inside the <main> landmark, indented to align
+   with the header's content column; it flows in the document with a gray
+   dash above the title. */
 .hero {
-  position: relative;
-  z-index: 1;
   background: none;
   color: inherit;
   padding: 0;
-  margin: 3rem 0 0 var(--col-left);
+  margin: 4rem 0 0.5rem;
   max-width: calc(var(--mw) + 4rem);
-  padding-right: 2rem;
 }
 .hero h1 {
   font-family: var(--fb);
@@ -229,13 +196,6 @@ h1, h2, h3, h4, h5, h6 {
   width: 2.2em;
   height: 2px;
   margin-bottom: 1rem;
-  background: currentColor;
-}
-.site-header.no-featured-image .hero {
-  margin-top: 4rem;
-  margin-bottom: 0.5rem;
-}
-.site-header.no-featured-image .hero h1::before {
   background: var(--text-lt);
 }
 
@@ -260,77 +220,6 @@ h1, h2, h3, h4, h5, h6 {
 .breadcrumbs a {
   color: var(--accent);
   text-decoration-thickness: 1px;
-}
-
-/* Page meta (repo addition — quiet) */
-.page-meta {
-  font-family: var(--fb);
-  font-size: 15px;
-  color: var(--text-lt);
-  margin-bottom: 2rem;
-}
-
-/* Blog entry meta (author / date row) */
-.entry-meta {
-  font-family: var(--fb);
-  font-size: 16px;
-  color: var(--text-lt);
-  margin: 0 0 1.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.25rem;
-}
-.entry-meta a { color: var(--accent); }
-
-/* Category footer + prev/next (blog) */
-.entry-footer {
-  font-family: var(--fb);
-  font-size: 16px;
-  color: var(--text-lt);
-  border-top: 1px solid var(--border);
-  margin-top: 3rem;
-  padding-top: 1rem;
-}
-.post-nav {
-  font-family: var(--fb);
-  font-size: 18px;
-  margin-top: 2rem;
-  display: flex;
-  justify-content: space-between;
-  gap: 2rem;
-}
-.share-links {
-  font-family: var(--fb);
-  font-size: 15px;
-  margin-top: 3rem;
-  color: var(--text);
-}
-.share-links > span {
-  display: block;
-  font-weight: 700;
-  font-size: 18px;
-  margin-bottom: 0.6rem;
-}
-.share-links > span::before {
-  content: "";
-  display: block;
-  width: 1em;
-  height: 1px;
-  background: var(--text);
-  margin-bottom: 1rem;
-}
-.share-links a {
-  display: inline-block;
-  margin-right: 0.5rem;
-  padding: 0.2rem 0.8rem;
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  color: var(--text);
-  text-decoration: none;
-}
-.share-links a:hover {
-  border-color: var(--text-lt);
-  color: var(--text);
 }
 
 /* Page content typography */
@@ -428,77 +317,6 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.6;
 }
 
-/* Blog index: live-style post previews */
-.post-preview {
-  margin-bottom: 3rem;
-}
-.post-preview h2 {
-  font-size: 36px;
-  margin: 0 0 0.25rem;
-}
-.post-preview h2 a {
-  color: var(--text);
-  text-decoration: none;
-}
-.post-preview h2 a:hover {
-  color: var(--accent);
-  text-decoration: underline;
-}
-.post-preview .entry-meta {
-  margin-bottom: 0.75rem;
-}
-.post-preview p {
-  margin: 0;
-}
-.other-blog-pages {
-  border-top: 1px solid var(--border);
-  padding-top: 2rem;
-}
-
-/* ===================== */
-/*   Badges              */
-/* ===================== */
-
-.badge {
-  display: inline-block;
-  font-family: var(--fb);
-  padding: 0.15rem 0.5rem;
-  border-radius: 3px;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  vertical-align: middle;
-  margin-left: 0.5rem;
-}
-.badge-draft {
-  background: var(--draft);
-  color: #fff;
-}
-.badge-private {
-  background: var(--priv);
-  color: #fff;
-}
-.badge-placeholder {
-  background: #9e9e9e;
-  color: #fff;
-}
-
-/* Placeholder notice */
-.placeholder-notice {
-  font-family: var(--fb);
-  background: #fff3e0;
-  border: 2px dashed var(--draft);
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin: 2rem 0;
-  text-align: center;
-}
-.placeholder-notice h3 {
-  color: var(--draft);
-  margin-top: 0;
-}
-
 /* ===================== */
 /*   Sections & Lists    */
 /* ===================== */
@@ -522,26 +340,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 .item-list li:last-child {
   border-bottom: none;
-}
-
-.columns {
-  column-count: 2;
-  column-gap: 2rem;
-}
-
-/* ===================== */
-/*   WP Block styles     */
-/* ===================== */
-
-.wp-block-image {
-  margin: 2rem 0;
-}
-.wp-block-separator {
-  border: none;
-  border-top: 2px solid var(--text);
-  width: 2.2em;
-  margin: 2rem 0;
-  margin-left: 0;
 }
 
 /* ===================== */
@@ -580,15 +378,6 @@ h1, h2, h3, h4, h5, h6 {
     --col-left: 1rem;
   }
 
-  /* Live-site mobile behavior: hero collapses to a solid primary block */
-  .site-header.has-featured-image {
-    background: var(--primary);
-    padding: 44px 0 56px;
-  }
-  .featured-media {
-    display: none;
-  }
-
   .site-header {
     padding-top: 32px;
   }
@@ -596,7 +385,6 @@ h1, h2, h3, h4, h5, h6 {
   .site-title,
   .site-sep,
   .site-description,
-  .site-title .tagline,
   .main-nav li a {
     font-size: 20px;
   }
@@ -607,14 +395,5 @@ h1, h2, h3, h4, h5, h6 {
 
   .content-wrapper {
     padding: 2rem 1rem 3rem 0;
-  }
-
-  .columns {
-    column-count: 1;
-  }
-
-  .post-nav {
-    flex-direction: column;
-    gap: 0.5rem;
   }
 }

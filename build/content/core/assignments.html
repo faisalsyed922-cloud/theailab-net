@@ -1,0 +1,59 @@
+<p>Four mini-projects stack on each other over the semester, followed by an original interdisciplinary Final Project. Each mini-project must include a README and a Generative AI Use Statement (see the <a href="policies.html">Policies</a> page).</p>
+
+{{INCLUDE:assignments-table}}
+
+<h2>Mini-Project 1 — Development Environment Configuration</h2>
+<p><strong>5%, Pass/No-Pass. Due Friday, September 4.</strong></p>
+<p>Configure a professional shell/terminal environment with documented customizations (e.g., zsh + <code>.zprofile</code>/<code>.zshrc</code>, XDG base directories, a modern CLI toolkit such as <code>ripgrep</code>, <code>fzf</code>, <code>bat</code>, <code>eza</code>, <code>tmux</code>; VS Code with relevant extensions).</p>
+<p><strong>Deliverable:</strong> a GitHub dotfiles repository (public recommended for portfolio value, or privately shared) with a README documenting your configuration choices and rationale, and a <code>.gitignore</code> showing secrets hygiene. Graded pass/no-pass on completeness and documentation quality.</p>
+
+<h2>Mini-Project 2 — AI Coding Agent Configuration</h2>
+<p><strong>5%, Pass/No-Pass. Due Friday, September 25.</strong></p>
+<p><em>High-level workflow pack.</em> Package 3–5 reusable Claude Code customizations (Skills, a slash command, and/or a subagent) into a small project plugin a classmate can install. The point is to get repeated prompts out of chat and out of <code>CLAUDE.md</code> and into invocable playbooks that speed up review, status checks, and explanation.</p>
+<p><strong>Deliverable:</strong> the plugin repository plus a short (≤3 min) recorded or live demo showing both a typed <code>/command</code> and an auto-triggered Skill.</p>
+
+<h2>Mini-Project 3 — Agent Harness and Hooks</h2>
+<p><strong>10%, graded. Due Friday, October 23 (demos Tuesday, October 27).</strong></p>
+<p><em>Low-level reliability harness.</em> Add 3–5 lifecycle hooks so the agent formats, logs, injects repo state, or blocks dangerous commands whether or not the model "remembers" the rules.</p>
+<p>Requirements: at least one hook must <strong>deny</strong> a tool call (e.g., destructive <code>git</code>/<code>rm</code> commands); at least one must produce a <strong>side effect</strong> such as lint-on-write or a Stop check that verifies tests actually ran; and the harness must integrate <strong>at least one FOSS extension</strong> from the ecosystem surveyed in Week 8 (observability/usage monitoring, context-engineering utilities, session-history tools, etc.), with the choice justified in the README.</p>
+<p><strong>Deliverable:</strong> the hook configuration, a trace or log showing that the runtime (not the prompt) enforced the behavior, and a 5-minute in-class demo (Week 10) walking through the deny-hook, the side-effect hook, and the trace.</p>
+
+<h2>Mini-Project 4 — SWE/SDLC Best Practices Capstone</h2>
+<p><strong>10%, graded. Due Friday, November 20 (presentations Nov 17/19).</strong></p>
+<p>Take a real-world, high-impact, non-trivial greenfield web application (instructor-supplied, or self-scoped and instructor-approved) from ideation to a robust minimum viable product (MVP) using a complete spec-driven software development lifecycle: <strong>plan → decompose → implement → test → review</strong>, with <strong>deploy</strong> optional but strongly encouraged (e.g., GitHub Pages, Netlify, or Vercel).</p>
+<p>Use the harness you built in MP1–3. Must include at least one instance of multi-agent/subagent orchestration (parallel dispatch, isolated worktrees, or a reviewer/implementer split) and a CI check (GitHub Actions) that runs the test suite on pull requests.</p>
+<p><strong>Deliverable:</strong> the repository (spec documents, PR history, CI runs, README), plus a 5-minute in-class presentation (Week 13). Graded on process adherence, final PR/deliverable quality, and documentation.</p>
+
+<h2>Final Project</h2>
+<p><strong>20%. Due exam period, December 14–18.</strong></p>
+<p>An original interdisciplinary research project that puts the MP1–4 agent harness to work on a real research question of your choosing, applying at least one key technique from the mini-projects.</p>
+<p>A one-page proposal (question, data/sources, planned use of the harness, expected deliverable) is due <strong>Friday, November 13</strong> and must be approved by the instructor before substantial work begins. The deliverable is a professional research poster, code and data, a signed Kenyon Digital Release form, and publication to your public digital portfolio at <strong>digital.kenyon.edu/dh</strong>. This is the one place the course is not AI-maximalist: poster content, and especially the prose, must be your own high-touch human writing and must not read like AI slop.</p>
+
+<h3>Alternative Format</h3>
+<p>Students who do not wish to publish their work publicly may instead complete a <strong>3-hour written exam</strong> in lieu of the poster/portfolio requirement, covering the semester's technical and conceptual material. Exam format and logistics will be provided separately. Students choosing this option must notify the instructor by <strong>Friday, November 13 (end of Week 12)</strong>.</p>
+
+<h3>Final Project Requirements</h3>
+<ol>
+<li><strong>Proposal:</strong> One-page proposal due Friday, November 13, approved by the instructor before substantial work begins.</li>
+<li><strong>Poster:</strong> Professional research poster in Microsoft PowerPoint format (<code>.ppt</code>/<code>.pptx</code>), not PDF or Keynote, for digital.kenyon.edu/dh compatibility. Use the course poster template (link on the course repository).</li>
+<li><strong>Code:</strong> Submit code (GitHub repo, Colab notebook, or equivalent) sufficient to verify originality and reproduce results, with no secrets committed.</li>
+<li><strong>Data:</strong> Submit any data required to run/test the project (e.g., <code>.csv</code> for structured data, <code>.pdf</code>/documents for retrieval-based work), or document how to obtain it if it cannot be redistributed.</li>
+<li><strong>Poster sections:</strong> Abstract, Background (cite prior/related work), Methodology, Results, Future Work/Conclusion, Declaration of AI Use, Author Contributions (if &gt;1 author), References (3–5, ACM format).</li>
+<li><strong>External code/tutorials:</strong> If the project builds on a public tutorial, template, or framework example, cite it in references and explain in the poster how you modified, extended, or customized it (unique dataset, prompts, agents, tools, etc.).</li>
+<li><strong>AI-assisted writing:</strong> Note in the Declaration of AI Use if AI helped outline, review, or generate figures for the poster. The poster prose itself must be human-written.</li>
+<li><strong>Portfolio publication:</strong> Submit the signed Kenyon Digital Release Form for publication to digital.kenyon.edu/dh, or notify the instructor by Friday, November 13 to opt into the 3-hour written exam alternative instead.</li>
+<li><strong>Moodle check:</strong> Confirm all grades, quizzes, and presentations are accurately recorded on Moodle.kenyon.edu before the end of the exam period.</li>
+</ol>
+
+<h2>Mini-Project 3 &amp; 4 Grading Rubric</h2>
+<p>Each graded mini-project (MP3, MP4) is evaluated on:</p>
+<table>
+<tr><th>Criterion</th><th>Weight</th><th>What is assessed</th></tr>
+<tr><td>Functionality</td><td>15%</td><td>Harness/workflow meets the specified requirements and performs as expected</td></tr>
+<tr><td>Technical Proficiency</td><td>20%</td><td>Effective, non-trivial use of hooks and orchestration (MP3) or of the spec-driven process, CI, and PR workflow (MP4)</td></tr>
+<tr><td>Documentation</td><td>15%</td><td>Clear README/report explaining design decisions, how to reproduce the work, and the Generative AI Use Statement</td></tr>
+<tr><td>Creativity and Extension</td><td>25%</td><td>Thoughtful choice and integration of a FOSS extension (MP3) or scoping and specification of the application (MP4)</td></tr>
+<tr><td>Presentation</td><td>25%</td><td>Clarity of the in-class demo (MP3, Week 10) or presentation (MP4, Week 13), including the ability to answer questions about why the harness is designed as it is</td></tr>
+</table>
+
+<p><strong>Pass/No-Pass mini-projects (MP1, MP2):</strong> Pass earns the full 5%. It requires a working, documented deliverable that meets all stated requirements, submitted on time. A No-Pass earns 0% until resubmitted; one resubmission within one week of feedback is allowed for up to full credit, at instructor discretion.</p>

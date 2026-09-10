@@ -14,13 +14,16 @@ def _rel(path):
 
 
 def _resolve_href(href, page_path):
-    """Resolve a relative href to an absolute Path, or None for external/anchor/mailto links."""
+    """Resolve a relative or root-relative href to an absolute Path, or None
+    for external/anchor/mailto links."""
     if not href or href.startswith(("http://", "https://", "mailto:", "#", "javascript:")):
         return None
     href = href.split("#")[0]
     if not href:
         return None
     href = unquote(href)
+    if href.startswith("/"):
+        return (SITE_ROOT / href.lstrip("/")).resolve()
     return (page_path.parent / href).resolve()
 
 
@@ -59,6 +62,35 @@ class TestNavConsistency:
                 failures.append(f"{_rel(f)}: {sorted(labels)}")
         assert not failures, f"Pages with inconsistent nav labels: {failures[:15]}"
 
+    def test_nav_markup_is_identical_modulo_active_item_and_depth(self, site_root, nav_pages):
+        """The nav <ul> markup must be byte-identical across pages once the
+        active-item attributes and the '../' depth prefix are stripped out.
+
+        This is what actually catches copy-paste drift like two different
+        relative-link conventions or inconsistent attribute ordering on the
+        active item - the label/resolution checks above don't touch markup
+        shape at all.
+        """
+        canonical_forms = {}
+        for f in nav_pages:
+            soup = BeautifulSoup(f.read_text(encoding="utf-8"), "lxml")
+            nav = soup.select_one("nav.main-nav")
+            if not nav:
+                continue
+            pieces = []
+            for a in nav.find_all("a"):
+                href = a.get("href", "")
+                while href.startswith("../"):
+                    href = href[len("../"):]
+                pieces.append(f"{href}|{a.get_text(strip=True)}")
+            canonical_forms[_rel(f)] = tuple(pieces)
+
+        distinct = set(canonical_forms.values())
+        assert len(distinct) == 1, (
+            f"Nav markup (href target + label, ignoring depth and active state) "
+            f"differs across pages: {dict(list(canonical_forms.items())[:5])}"
+        )
+
     def test_nav_links_resolve(self, site_root, nav_pages):
         """Nav links on every non-404 page must resolve to existing files."""
         broken = []
@@ -87,3 +119,29 @@ class TestScheduleLinksAllWeeks:
             ):
                 missing.append(f"week-{n:02d}.html")
         assert not missing, f"core/schedule.html missing links to: {missing}"
+
+    def test_schedule_week_link_text_matches_week_page_h1(self, site_root):
+        """Each week link's visible text on core/schedule.html must exactly
+        match that week page's own <h1> text - otherwise a student following
+        the link sees a different title than the one that brought them there.
+        """
+        schedule = site_root / "core" / "schedule.html"
+        schedule_soup = BeautifulSoup(schedule.read_text(encoding="utf-8"), "lxml")
+
+        mismatches = []
+        for n in range(1, 16):
+            week_name = f"week-{n:02d}.html"
+            week_path = site_root / "weeks" / week_name
+            week_soup = BeautifulSoup(week_path.read_text(encoding="utf-8"), "lxml")
+            h1 = week_soup.find("h1")
+            assert h1 is not None, f"{week_name}: missing <h1>"
+            expected_text = h1.get_text(strip=True)
+
+            link = schedule_soup.find("a", href=lambda h: h and h.endswith(week_name))
+            assert link is not None, f"core/schedule.html: no link to {week_name}"
+            actual_text = link.get_text(strip=True)
+
+            if actual_text != expected_text:
+                mismatches.append(f"{week_name}: schedule says '{actual_text}', page h1 is '{expected_text}'")
+
+        assert not mismatches, f"Schedule link text / week page title mismatches: {mismatches}"

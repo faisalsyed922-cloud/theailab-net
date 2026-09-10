@@ -1,3 +1,6 @@
-pytest>=7
-beautifulsoup4>=4
-lxml>=4
+# Exact pins for reproducibility (no CI to catch an unrelated upstream
+# major-version bump) - bump deliberately, not by relaxing to >=.
+pytest==9.1.1
+beautifulsoup4==4.15.0
+lxml==6.1.3
+html5lib==1.1

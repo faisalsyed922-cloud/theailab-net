@@ -12,10 +12,17 @@ def site_root():
 
 @pytest.fixture(scope="session")
 def all_html_files(site_root):
-    """All HTML files in the site, excluding .venv."""
+    """All deployed HTML pages, excluding .venv and build/ sources.
+
+    build/ holds the partials/shared/content fragments that build/build.py
+    combines into the real pages below - those fragments are not standalone
+    pages themselves (no DOCTYPE, header, etc.) and must not be checked as
+    if they were.
+    """
+    excluded_dirs = {".venv", "build"}
     return sorted(
         f for f in site_root.rglob("*.html")
-        if ".venv" not in f.relative_to(site_root).parts
+        if not excluded_dirs & set(f.relative_to(site_root).parts)
     )
 
 
@@ -34,8 +41,11 @@ def parsed_pages(all_html_files):
 def nav_pages(all_html_files):
     """All HTML files except 404.html.
 
-    404.html is a server-served fallback page, intentionally not linked from
-    navigation or content, so it's excluded from nav-consistency and
-    reachability-from-index checks.
+    404.html is not linked from navigation or content and is not served by
+    the local dev workflow (`python3 -m http.server` has no custom-error-page
+    support); it is kept root-relative and structurally valid so it works
+    correctly if the site is later hosted somewhere that auto-serves a root
+    404.html (e.g., GitHub Pages). It's therefore excluded from
+    nav-consistency and reachability-from-index checks.
     """
     return [f for f in all_html_files if f.name != "404.html"]
